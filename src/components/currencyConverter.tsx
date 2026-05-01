@@ -104,8 +104,6 @@ const CurrencyConverter: React.FC = () => {
     setToCurrency(fromCurrency);
   };
 
-  console.log("result", result)
-
   return (
     <div className="max-w-md w-full mx-auto mt-10 p-6 bg-gray-900 rounded-lg shadow-lg text-white">
       <h1 className="text-xl mb-4 text-center">Currency Converter</h1>
