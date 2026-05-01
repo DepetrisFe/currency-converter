@@ -74,13 +74,22 @@ const CurrencyConverter: React.FC = () => {
       return;
     }
 
+    // Validación extra para evitar llamadas innecesarias a la API
+    if (fromCurrency === toCurrency) {
+      setResult(numericAmount);
+      return;
+    }
+
     const fetchConversion = async () => {
       try {
         const res = await fetch(
-          `https://api.frankfurter.app/latest?amount=${numericAmount}&from=${fromCurrency}&to=${toCurrency}`
+          `https://api.frankfurter.dev/v1/latest?base=${fromCurrency}&symbols=${toCurrency}`
         );
+
         const data = await res.json();
-        setResult(data.rates[toCurrency]);
+        const rate = data.rates[toCurrency];
+        setResult(parseFloat((numericAmount * rate).toFixed(2)));
+
       } catch (error) {
         console.error("Error fetching conversion", error);
         setResult(0);
@@ -94,6 +103,8 @@ const CurrencyConverter: React.FC = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
   };
+
+  console.log("result", result)
 
   return (
     <div className="max-w-md w-full mx-auto mt-10 p-6 bg-gray-900 rounded-lg shadow-lg text-white">
